@@ -12,7 +12,7 @@ from .serializers import UserSerializer,ShippingAddressSerializer,CreateShipping
 class UserListCreateAPIView(APIView):
 
     def get(self,request):
-        users=User.objects.all().prefetch_related('shipping_addresses')
+        users=User.objects.all().prefetch_related('shipping_addresses').select_related('default_shipping_address')
         return Response(UserSerializer(users,many=True).data)
 
     def post(self,request):
@@ -24,6 +24,14 @@ class UserListCreateAPIView(APIView):
 class UserRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class DefaultShippingAddressAPIView(APIView):
+    def patch(self,request,user_id,address_id):
+        user=get_object_or_404(User, pk=user_id)
+        address=get_object_or_404(ShippingAddress, user_id=user_id,pk=address_id)
+        user.default_shipping_address=address
+        user.save()
+        return Response(UserSerializer(user).data,status=status.HTTP_200_OK)
 
 
 class ShippingAddressListCreateAPIView(APIView):
