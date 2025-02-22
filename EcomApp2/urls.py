@@ -20,7 +20,11 @@ from django.urls import include,path
 from debug_toolbar.toolbar import debug_toolbar_urls
 
 from EcomApp2.views import UserListCreateAPIView,UserRetrieveUpdateDestroyAPIView,ShippingAddressListCreateAPIView,DefaultShippingAddressAPIView
+from EcomApp2.views import HomePageMessage
+
+
 urlpatterns = [
+        path('',HomePageMessage),
         path('admin/', admin.site.urls),
         path('user/<int:pk>', UserRetrieveUpdateDestroyAPIView.as_view()),
         path('user/',UserListCreateAPIView.as_view()),

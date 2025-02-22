@@ -7,7 +7,7 @@ class User(models.Model):
     default_shipping_address=models.ForeignKey(
         'ShippingAddress',
         on_delete=models.DO_NOTHING,null=True,
-        related_query_name='user_info'
+        related_query_name='user_info' 
     )
 
     created_at=models.DateTimeField(auto_now_add=True)

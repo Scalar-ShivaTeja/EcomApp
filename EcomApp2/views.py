@@ -8,7 +8,9 @@ from rest_framework.views import APIView
 
 from .models import User,Address,ShippingAddress
 from .serializers import UserSerializer,ShippingAddressSerializer,CreateShippingAddressSerializer
-
+from django.http import HttpResponse
+def HomePageMessage(request):
+    return HttpResponse("Welcome to the E-commerce App!")
 class UserListCreateAPIView(APIView):
 
     def get(self,request):
