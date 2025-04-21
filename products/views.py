@@ -22,9 +22,21 @@ def hello(request):
 @api_view(['GET','POST'])
 def products(request):
     if request.method == 'GET':
-        data=Product.objects.all()
-        serialized_data  = ProductSerializer(data, many=True)
-        return Response(serialized_data.data)
+        products=Product.objects.all()
+
+        name = request.GET.get('name')
+        price = request.GET.get('price')
+        description = request.GET.get('description')
+
+        if name:
+            products = products.filter(name__icontains=name)
+        if price:
+            products = products.filter(price=price)
+        if description:
+            products = products.filter(description__icontains=description)
+
+        serialized_products  = ProductSerializer(products, many=True)
+        return Response(serialized_products.data)
     elif request.method == 'POST':
         data=request.data
         serializer = ProductSerializer(data=data)
@@ -39,9 +51,9 @@ def products(request):
 @api_view(['GET'])
 def product(request, id):
     try:
-        data=Product.objects.get(pk=id)
-        serialized_data = ProductSerializer(data)
-        return Response(serialized_data.data)
+        product=Product.objects.get(pk=id)
+        serialized_data = ProductSerializer(product)
+        return Response(product.data)
     except Product.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
