@@ -3,9 +3,13 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+
 from products.serializers import ProductSerializer
 from products.models import Product
 
+#TODO : Resolve => DRF form issue => want to see field wise option to input data in post request
+# from rest_framework.decorators import renderer_classes
+# from rest_framework.renderers import BrowsableAPIRenderer
 
 # Create your views here.
 
